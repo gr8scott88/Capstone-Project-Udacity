@@ -51,5 +51,13 @@
             android:text="Exercise Log"
             android:id="@+id/button_exercise_log"
             android:layout_gravity="center_horizontal"/>
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="DB Manager"
+            android:id="@+id/button_db_manager"
+            android:layout_gravity="center_horizontal"/>
+
     </LinearLayout>
 </RelativeLayout>

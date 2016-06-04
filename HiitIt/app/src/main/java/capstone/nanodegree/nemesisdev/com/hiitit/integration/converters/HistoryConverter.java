@@ -7,7 +7,7 @@ import android.support.annotation.NonNull;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.HiitContract;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.HistoryItem;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
-
+import static capstone.nanodegree.nemesisdev.com.hiitit.data.HiitContract.getContentValuesFrom;
 /**
  * Created by Scott on 5/18/2016.
  */
@@ -15,7 +15,7 @@ public class HistoryConverter implements Converter<HistoryItem> {
 
     @Override
     public ContentValues convert(Cursor c) {
-        return null;
+        return getContentValuesFrom(c);
     }
 
     @Override

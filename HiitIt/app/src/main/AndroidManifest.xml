@@ -37,6 +37,15 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity android:name="capstone.nanodegree.nemesisdev.com.hiitit.AndroidDatabaseManager"
+                  android:theme="@style/Theme.AppCompat.Light"/>
+
+
+        <provider
+            android:name="capstone.nanodegree.nemesisdev.com.hiitit.data.WorkoutProvider"
+            android:authorities="capstone.nanodegree.nemesisdev.com.hiitit"
+            android:enabled="true"
+            android:exported="true"/>
     </application>
 
 </manifest>

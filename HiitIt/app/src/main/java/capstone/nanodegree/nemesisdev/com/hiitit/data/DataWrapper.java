@@ -12,8 +12,9 @@ import rx.Observable;
  */
 public interface DataWrapper {
 
-    Observable<List<HistoryItem>> getHistory();
-    Observable<List<Workout>> getWorkouts();
+    List<HistoryItem> getHistory();
+    List<Workout> getWorkouts();
+    Workout getWorkoutById(int id);
     void saveWorkout(Workout w);
     Workout getMostRecent();
 

@@ -8,12 +8,15 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.support.annotation.Nullable;
+import android.util.Log;
+import android.widget.Toast;
 
 /**
  * Created by Scott on 5/7/2016.
  */
 public class WorkoutProvider extends ContentProvider {
 
+    private static final String TAG = "WORKOUTPROVIDER";
 
     private static final UriMatcher sUriMatcher = buildUriMatcher();
     private WorkoutDbHelper mDbHelper;
@@ -39,8 +42,12 @@ public class WorkoutProvider extends ContentProvider {
     @Override
     public Cursor query(Uri uri, String[] projection, String selection, String[] selectionArgs, String sortOrder) {
         Cursor retCursor;
-        switch (sUriMatcher.match(uri)) {
+        Cursor manualCursor;
+        final int match = sUriMatcher.match(uri);
+        switch (match) {
             case WORKOUTS:
+                Log.v(TAG, "Querying All Workouts");
+
                 retCursor = mDbHelper.getReadableDatabase().query(
                         HiitContract.WorkoutEntry.TABLE_NAME,
                         projection,
@@ -50,10 +57,26 @@ public class WorkoutProvider extends ContentProvider {
                         null,
                         sortOrder
                 );
+
+
+
                 break;
             case HISTORY_FROM_DATE:
+                Log.v(TAG, "Querying Histories by date");
                 retCursor = mDbHelper.getReadableDatabase().query(
-                        HiitContract.WorkoutEntry.TABLE_NAME,
+                        HiitContract.HistoryEntry.TABLE_NAME,
+                        projection,
+                        sHistoryPastDate,
+                        selectionArgs,
+                        null,
+                        null,
+                        sortOrder
+                );
+                break;
+            case HISTORY:
+                Log.v(TAG, "Querying All Histories");
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        HiitContract.HistoryEntry.TABLE_NAME,
                         projection,
                         sHistoryPastDate,
                         selectionArgs,
@@ -78,11 +101,12 @@ public class WorkoutProvider extends ContentProvider {
         switch (match){
             case WORKOUTS:
                 return HiitContract.WorkoutEntry.CONTENT_TYPE;
+            case HISTORY:
+                return  HiitContract.HistoryEntry.CONTENT_TYPE;
             case HISTORY_FROM_DATE:
                 return HiitContract.HistoryEntry.CONTENT_TYPE;
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
-
         }
 
     }
@@ -144,9 +168,11 @@ public class WorkoutProvider extends ContentProvider {
                     for (ContentValues value : values){
                         long _id = db.insert(HiitContract.WorkoutEntry.TABLE_NAME, null, value);
                         if (_id != -1){
+                            Log.v(TAG, "Inserting: " + value.toString());
                             returnCount++;
                         }
                     }
+                    db.setTransactionSuccessful();
                 }finally {
                     db.endTransaction();
                 }
@@ -158,9 +184,11 @@ public class WorkoutProvider extends ContentProvider {
                     for (ContentValues value : values){
                         long _id = db.insert(HiitContract.HistoryEntry.TABLE_NAME, null, value);
                         if (_id != -1){
+                            Log.v(TAG, "Inserting: " + value.toString());
                             returnCount++;
                         }
                     }
+                    db.setTransactionSuccessful();
                 }finally {
                     db.endTransaction();
                 }
@@ -181,7 +209,10 @@ public class WorkoutProvider extends ContentProvider {
         // For each type of URI you want to add, create a corresponding code.
         matcher.addURI(authority, HiitContract.PATH_WORKOUT, WORKOUTS);
 
-        matcher.addURI(authority, HiitContract.PATH_HISTORY, HISTORY_FROM_DATE);
+        // For each type of URI you want to add, create a corresponding code.
+        matcher.addURI(authority, HiitContract.PATH_HISTORY, HISTORY);
+
+        //matcher.addURI(authority, HiitContract.PATH_HISTORY, HISTORY_FROM_DATE);
         return matcher;
     }
 

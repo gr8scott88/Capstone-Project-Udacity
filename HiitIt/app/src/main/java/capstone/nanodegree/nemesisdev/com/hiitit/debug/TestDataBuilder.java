@@ -26,7 +26,7 @@ public class TestDataBuilder {
     }
 
 
-    public boolean insertWorkouts(){
+    public int insertWorkouts(){
 
         try {
             // Insert the new weather information into the database
@@ -47,18 +47,18 @@ public class TestDataBuilder {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
 
-            mContext.getContentResolver().bulkInsert(HiitContract.WorkoutEntry.CONTENT_URI, cvArray);
-            return true;
+            int addedEntries = mContext.getContentResolver().bulkInsert(HiitContract.WorkoutEntry.CONTENT_URI, cvArray);
+            return addedEntries;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
     }
 
 
 
-    public boolean insertHistory(){
+    public int insertHistory(){
 
 
         try {
@@ -79,11 +79,11 @@ public class TestDataBuilder {
             ContentValues[] cvArray = new ContentValues[cVVector.size()];
             cVVector.toArray(cvArray);
 
-            mContext.getContentResolver().bulkInsert(HiitContract.HistoryEntry.CONTENT_URI, cvArray);
-            return true;
+            int addedEntries = mContext.getContentResolver().bulkInsert(HiitContract.HistoryEntry.CONTENT_URI, cvArray);
+            return addedEntries;
         } catch (Exception e) {
             e.printStackTrace();
-            return false;
+            return -1;
         }
 
     }

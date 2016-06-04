@@ -15,7 +15,9 @@ public class HiitContract {
 
     public static enum DIFFICULTY {EASY, MEDIUM, HARD, IMPOSSIBLE};
 
-    public static final String CONTENT_AUTHORITY = "com.nemesisdev.hiitit.app";
+    public static final String CONTENT_AUTHORITY = "capstone.nanodegree.nemesisdev.com.hiitit";
+    //android:name="capstone.nanodegree.nemesisdev.com.hiitit.data.WorkoutProvider"
+    //android:authorities="capstone.nanodegree.nemesisdev.com.hiitit"
 
     public static final Uri BASE_CONTENT_URI = Uri.parse("content://" + CONTENT_AUTHORITY);
 

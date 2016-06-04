@@ -62,8 +62,40 @@ public class Workout implements Parcelable{
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(mId);
+        dest.writeString(mName);
         dest.writeInt(mRounds);
         dest.writeInt(mActiveTime);
         dest.writeInt(mRestTime);
+        dest.writeInt(mTotalWorkoutTime);
     }
+
+
+    public static final Parcelable.Creator<Workout> CREATOR
+            = new Parcelable.Creator<Workout>() {
+        public Workout createFromParcel(Parcel in) {
+            return new Workout(in);
+        }
+
+        public Workout[] newArray(int size) {
+            return new Workout[size];
+        }
+    };
+
+    private Workout(Parcel in) {
+        mId = in.readInt();
+        mName = in.readString();
+        mRounds = in.readInt();
+        mActiveTime = in.readInt();
+        mRestTime = in.readInt();
+        mTotalWorkoutTime = in.readInt();
+    }
+
+
+    public String workoutDetail(){
+        return "Workout " + mId +": " + "Name: " + mName + " Rounds: " + mRounds + " Active Time: " + mActiveTime;
+    }
+
+
+
 }

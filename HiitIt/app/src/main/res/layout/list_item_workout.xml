@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="horizontal"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"
+              android:paddingTop="15dp">
+
+    <TextView
+        android:id="@+id/item_workout_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Name"
+        android:paddingStart="15dp"/>
+
+
+    <TextView
+        android:id="@+id/item_workout_rounds"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="8"
+        android:paddingStart="15dp"/>
+
+    <TextView
+        android:id="@+id/item_workout_active_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:20"
+        android:paddingStart="15dp"/>
+
+    <TextView
+        android:id="@+id/item_workout_rest_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0:10"
+        android:paddingStart="15dp"/>
+
+</LinearLayout>

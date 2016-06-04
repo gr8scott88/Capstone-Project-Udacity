@@ -10,7 +10,12 @@ public class TimeManager {
 
     private static int cSecInMin = 60;
 
-    public String secondsToMinSec(int seconds){
+
+    private TimeManager(){
+
+    }
+
+    public static String secondsToMinSec(int seconds){
 
         int mins = (int)seconds/cSecInMin;
         int secs = seconds - mins*cSecInMin;
@@ -33,7 +38,40 @@ public class TimeManager {
         return minString+":"+secString;
     }
 
+    public static int minAndSecToSeconds(int min, int sec){
+        return 60*min + sec;
+    }
 
+
+    public static int minSecToSeconds(String minsec){
+        int mins = 0;
+        int secs = 0;
+        try {
+            String[] minSecStrings = minsec.split(":");
+            mins = Integer.parseInt(minSecStrings[0]);
+            secs = Integer.parseInt(minSecStrings[1]);
+            return minAndSecToSeconds(mins, secs);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+        return -1000;
+    }
+
+    public static String calcWorkoutTimeString(int activeTime, int restTime, int rounds){
+        int secs = calcWorkoutTimeSec(activeTime, restTime, rounds)
+        return secondsToMinSec(secs);
+    }
+
+    public static int calcWorkoutTimeSec(int activeTime, int restTime, int rounds){
+        return (activeTime+restTime) * rounds - restTime;
+    }
+
+    public static String calcWorkoutTimeString(String activeTime, String restTime, String roundString){
+        int activeSecs = minSecToSeconds(activeTime);
+        int restSecs = minSecToSeconds(restTime);
+        int rounds = Integer.parseInt(roundString);
+        return calcWorkoutTimeString(activeSecs, restSecs, rounds);
+    }
 
 
 

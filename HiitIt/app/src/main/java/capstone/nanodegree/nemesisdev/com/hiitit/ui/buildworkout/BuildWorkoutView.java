@@ -7,6 +7,6 @@ public interface BuildWorkoutView {
 
     void onWorkoutChanged(String newTime);
 
-
+    void onWorkoutStart(int id);
 
 }

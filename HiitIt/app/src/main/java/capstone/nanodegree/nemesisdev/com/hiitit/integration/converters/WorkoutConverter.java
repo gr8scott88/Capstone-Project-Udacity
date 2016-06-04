@@ -5,7 +5,7 @@ import android.database.Cursor;
 import android.support.annotation.NonNull;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.HiitContract;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
-
+import static capstone.nanodegree.nemesisdev.com.hiitit.data.HiitContract.getContentValuesFrom;
 
 /**
  * Created by Scott on 5/11/2016.
@@ -14,7 +14,7 @@ public class WorkoutConverter implements Converter<Workout> {
 
     @Override
     public ContentValues convert(Cursor c) {
-        return null;
+        return getContentValuesFrom(c);
     }
 
     @Override
@@ -24,7 +24,7 @@ public class WorkoutConverter implements Converter<Workout> {
         }
 
         ContentValues values = new ContentValues();
-        values.put(HiitContract.WorkoutEntry._ID, workout.getId());
+        //values.put(HiitContract.WorkoutEntry._ID, workout.getId());
         values.put(HiitContract.WorkoutEntry.COLUMN_WORKOUT_NAME, workout.getName());
         values.put(HiitContract.WorkoutEntry.COLUMN_ROUNDS, workout.getRounds());
         values.put(HiitContract.WorkoutEntry.COLUMN_ACTIVE_TIME, workout.getActiveTime());

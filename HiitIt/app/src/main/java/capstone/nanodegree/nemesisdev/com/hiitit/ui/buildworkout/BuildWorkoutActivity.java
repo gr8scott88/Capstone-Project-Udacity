@@ -6,11 +6,28 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
+import butterknife.BindView;
+import butterknife.OnTextChanged;
 import capstone.nanodegree.nemesisdev.com.hiitit.BaseActivity;
 import capstone.nanodegree.nemesisdev.com.hiitit.R;
+import capstone.nanodegree.nemesisdev.com.hiitit.ui.main.MainMenuPresenter;
+import capstone.nanodegree.nemesisdev.com.hiitit.utils.TimeManager;
 
 public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutView{
+
+
+    @BindView(R.id.newWorkoutName) EditText mWorkoutName;
+    @BindView(R.id.exercise_time) EditText mActiveTime;
+    @BindView(R.id.break_time) EditText mBreakTime;
+    @BindView(R.id.round_count) EditText mRounds;
+    @BindView(R.id.calculated_workout_time) TextView mTotalTime;
+
+    private BuildWorkoutPresenter mPresenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,6 +35,8 @@ public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutVi
         setContentView(R.layout.activity_build_workout);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mPresenter = new BuildWorkoutPresenterImpl(this);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -30,8 +49,18 @@ public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutVi
     }
 
 
+    @OnTextChanged({R.id.exercise_time, R.id.break_time, R.id.round_count}) void onTextChanged(CharSequence text){
+        mTotalTime.setText(TimeManager.calcWorkoutTimeString(mActiveTime.getText().toString(), mBreakTime.getText().toString(), mRounds.getText().toString()));
+    }
+
     @Override
     public void onWorkoutChanged(String newTime) {
 
+    }
+
+
+    @Override
+    public void onWorkout(int id) {
+        mPresenter.onWorkoutStart(Workout w);
     }
 }
