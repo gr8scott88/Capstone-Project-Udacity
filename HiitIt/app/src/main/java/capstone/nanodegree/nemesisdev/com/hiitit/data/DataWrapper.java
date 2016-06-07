@@ -1,5 +1,7 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.data;
 
+import android.net.Uri;
+
 import java.util.List;
 
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.HistoryItem;
@@ -15,7 +17,7 @@ public interface DataWrapper {
     List<HistoryItem> getHistory();
     List<Workout> getWorkouts();
     Workout getWorkoutById(int id);
-    void saveWorkout(Workout w);
+    Uri saveWorkout(Workout w);
     Workout getMostRecent();
 
 

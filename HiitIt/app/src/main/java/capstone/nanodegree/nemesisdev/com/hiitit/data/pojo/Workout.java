@@ -24,6 +24,26 @@ public class Workout implements Parcelable{
         this.mTotalWorkoutTime = calculateTotalTime();
     }
 
+    public Workout(String mName, int cRounds, int cActiveTime, int cRestTime) {
+        this.mId = 0;
+        this.mName = mName;
+        this.mRounds = cRounds;
+        this.mActiveTime = cActiveTime;
+        this.mRestTime = cRestTime;
+        this.mTotalWorkoutTime = calculateTotalTime();
+    }
+
+
+    public Workout( String mName, String cRounds, String cActiveTime, String cRestTime) {
+        this.mId = 0;
+        this.mName = mName;
+        this.mRounds = Integer.parseInt(cRounds);
+        this.mActiveTime = Integer.parseInt(cActiveTime);
+        this.mRestTime = Integer.parseInt(cRestTime);
+        this.mTotalWorkoutTime = calculateTotalTime();
+    }
+
+
     public int getId() {
         return mId;
     }

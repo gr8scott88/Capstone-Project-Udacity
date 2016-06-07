@@ -12,6 +12,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import capstone.nanodegree.nemesisdev.com.hiitit.BaseActivity;
 import capstone.nanodegree.nemesisdev.com.hiitit.R;
+import capstone.nanodegree.nemesisdev.com.hiitit.data.LocalDataWrapper;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.HistoryItem;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 import capstone.nanodegree.nemesisdev.com.hiitit.ui.main.MainMenuActivity;
@@ -31,6 +32,24 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_workout);
+        mPresenter = new WorkoutPresenterImpl(this, new LocalDataWrapper(getContentResolver()));
+
+
+        try{
+            mWorkout = getIntent().getParcelableExtra("PASSEDWORKOUT");
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        if (mWorkout == null){
+            try{
+                int loadedId = getIntent().getIntExtra("LOADEDWORKOUT", -1);
+                mPresenter.loadWorkout(loadedId);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
+        }
+
 
         ButterKnife.setDebug(true);
         ButterKnife.bind(this);
@@ -45,6 +64,13 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     @Override
     public void onWorkoutLoaded(Workout w) {
         mWorkout = w;
+        mCurrentStatus.setText("READY");
+        mCurrentTime.setText(mWorkout.getActiveTime()+"");
+        mCurrentRound.setText("1 of " + mWorkout.getRounds());
+        mTimeRemaining.setText(mWorkout.getTotalWorkoutTime()+"");
+    }
+
+    public void onWorkoutLoaded(){
         mCurrentStatus.setText("READY");
         mCurrentTime.setText(mWorkout.getActiveTime()+"");
         mCurrentRound.setText("1 of " + mWorkout.getRounds());

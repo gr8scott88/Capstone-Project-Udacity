@@ -65,7 +65,7 @@ public class LoadWorkoutActivity extends BaseActivity implements LoadWorkoutView
     @Override
     public void onWorkoutSelected(int workoutId) {
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("SELECTEDWORKOUT", workoutId);
+        intent.putExtra("LOADEDWORKOUT", workoutId);
         startActivity(intent);
     }
 

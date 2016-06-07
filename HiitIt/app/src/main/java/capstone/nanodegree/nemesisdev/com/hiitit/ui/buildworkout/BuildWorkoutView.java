@@ -1,12 +1,21 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.ui.buildworkout;
 
+import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
+
 /**
  * Created by Scott on 5/7/2016.
  */
 public interface BuildWorkoutView {
 
-    void onWorkoutChanged(String newTime);
+    void updateTotalTime(String newTime);
 
-    void onWorkoutStart(int id);
+    void startWorkout(int id);
+
+
+    void startWorkout(Workout w);
+
+    void onStartWorkoutClicked();
+
+    void showMessage(String s);
 
 }

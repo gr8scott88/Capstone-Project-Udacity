@@ -67,8 +67,16 @@ public class LocalDataWrapper implements DataWrapper {
 
 
     @Override
-    public void saveWorkout(Workout w) {
+    public Uri saveWorkout(Workout w) {
+        Uri uri = null;
+        try{
+            ContentValues cv = mWorkoutConverter.convert(w);
+            uri = mContentResolver.insert(HiitContract.WorkoutEntry.CONTENT_URI, cv);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
 
+        return uri;
     }
 
     @Override

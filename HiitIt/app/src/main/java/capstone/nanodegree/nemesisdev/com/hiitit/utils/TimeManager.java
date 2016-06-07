@@ -43,13 +43,18 @@ public class TimeManager {
     }
 
 
-    public static int minSecToSeconds(String minsec){
-        int mins = 0;
+    public static int minSecToSeconds(String minsec){int mins = 0;
         int secs = 0;
         try {
             String[] minSecStrings = minsec.split(":");
-            mins = Integer.parseInt(minSecStrings[0]);
-            secs = Integer.parseInt(minSecStrings[1]);
+            if (minSecStrings.length == 1){
+                mins = 0;
+                secs = Integer.parseInt(minSecStrings[0]);
+            }else{
+                mins = Integer.parseInt(minSecStrings[0]);
+                secs = Integer.parseInt(minSecStrings[1]);
+
+            }
             return minAndSecToSeconds(mins, secs);
         } catch (NumberFormatException e) {
             e.printStackTrace();
@@ -58,7 +63,7 @@ public class TimeManager {
     }
 
     public static String calcWorkoutTimeString(int activeTime, int restTime, int rounds){
-        int secs = calcWorkoutTimeSec(activeTime, restTime, rounds)
+        int secs = calcWorkoutTimeSec(activeTime, restTime, rounds);
         return secondsToMinSec(secs);
     }
 
