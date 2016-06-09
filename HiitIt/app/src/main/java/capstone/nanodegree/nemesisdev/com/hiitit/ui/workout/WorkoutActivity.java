@@ -10,6 +10,8 @@ import org.w3c.dom.Text;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
+import butterknife.OnLongClick;
 import capstone.nanodegree.nemesisdev.com.hiitit.BaseActivity;
 import capstone.nanodegree.nemesisdev.com.hiitit.R;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.LocalDataWrapper;
@@ -27,6 +29,7 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     @BindView(R.id.current_cycle_string) TextView mCurrentRound;
     @BindView(R.id.workout_status) TextView mCurrentStatus;
     @BindView(R.id.time_remaining_string) TextView mTimeRemaining;
+    @BindView(R.id.button_end_workout) Button mButtonEndWorkout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +56,16 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
 
         ButterKnife.setDebug(true);
         ButterKnife.bind(this);
+    }
+
+
+
+    @OnClick(R.id.button_end_workout)
+    @Override
+    public void onEndWorkoutClicked() {
+        Intent intent = new Intent(this, MainMenuActivity.class);
+        mPresenter.saveWorkoutInfo();
+        startActivity(intent);
     }
 
 

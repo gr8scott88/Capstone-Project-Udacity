@@ -63,6 +63,9 @@ public class TimeManager {
     }
 
     public static String calcWorkoutTimeString(int activeTime, int restTime, int rounds){
+        if (activeTime <= 0 || restTime <= 0 || rounds <= 0){
+            return "Invalid Entry";
+        }
         int secs = calcWorkoutTimeSec(activeTime, restTime, rounds);
         return secondsToMinSec(secs);
     }
@@ -72,12 +75,29 @@ public class TimeManager {
     }
 
     public static String calcWorkoutTimeString(String activeTime, String restTime, String roundString){
-        int activeSecs = minSecToSeconds(activeTime);
-        int restSecs = minSecToSeconds(restTime);
-        int rounds = Integer.parseInt(roundString);
+        int activeSecs = 0;
+        int restSecs = 0;
+        int rounds = 0;
+
+        try{
+             activeSecs = Integer.parseInt(activeTime);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
+        try {
+            restSecs = Integer.parseInt(restTime);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            rounds = Integer.parseInt(roundString);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+        }
+
         return calcWorkoutTimeString(activeSecs, restSecs, rounds);
     }
-
-
 
 }

@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -64,6 +65,7 @@ public class LoadWorkoutActivity extends BaseActivity implements LoadWorkoutView
 
     @Override
     public void onWorkoutSelected(int workoutId) {
+        showMessage("Clicked: " + workoutId);
         Intent intent = new Intent(this, WorkoutActivity.class);
         intent.putExtra("LOADEDWORKOUT", workoutId);
         startActivity(intent);
@@ -75,4 +77,22 @@ public class LoadWorkoutActivity extends BaseActivity implements LoadWorkoutView
         mAdapter.notifyDataSetChanged();
         mWorkouts = workouts;
     }
+
+
+    @Override
+    public void showMessage(String msg) {
+        Toast.makeText(LoadWorkoutActivity.this, msg, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onWorkoutDeleted(int workoutId, int pos) {
+        mPresenter.deleteWorkout(workoutId);
+        mWorkouts.remove(pos);
+        mAdapter.removeItem(pos);
+        mAdapter.notifyItemRemoved(pos);
+        mAdapter.notifyItemRangeChanged(pos, mWorkouts.size());
+        //mAdapter.notifyDataSetChanged();
+    }
+
+
 }

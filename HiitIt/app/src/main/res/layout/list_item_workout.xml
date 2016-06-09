@@ -34,4 +34,10 @@
         android:text="0:10"
         android:paddingStart="15dp"/>
 
+    <Button
+        android:id="@+id/button_delete_saved_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Delete"/>
+
 </LinearLayout>

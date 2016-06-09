@@ -38,6 +38,14 @@ public class LoadWorkoutPresenterImpl implements LoadWorkoutPresenter {
         mView.onWorkoutsLoaded(mDataWrapper.getWorkouts());
 
     }
+
+    @Override
+    public void deleteWorkout(int workoutId) {
+        int rowsDeleted = mDataWrapper.deleteWorkout(workoutId);
+        if (rowsDeleted == 0){
+            mView.showMessage("Failed to delete workout");
+        }
+    }
 }
 
 

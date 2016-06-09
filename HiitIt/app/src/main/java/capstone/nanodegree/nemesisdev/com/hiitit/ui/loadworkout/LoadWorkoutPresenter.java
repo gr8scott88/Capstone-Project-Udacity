@@ -11,4 +11,7 @@ public interface LoadWorkoutPresenter {
 
     void loadWorkouts();
 
+    void deleteWorkout(int workoutId);
+
+
 }

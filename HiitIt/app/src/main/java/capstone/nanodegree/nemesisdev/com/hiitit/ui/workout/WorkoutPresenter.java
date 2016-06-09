@@ -7,5 +7,7 @@ public interface WorkoutPresenter {
 
     void loadWorkout(int workoutId);
     void tick();
+    void saveWorkoutInfo();
+
 
 }

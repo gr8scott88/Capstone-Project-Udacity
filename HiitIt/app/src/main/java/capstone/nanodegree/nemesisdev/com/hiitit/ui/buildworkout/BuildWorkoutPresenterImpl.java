@@ -52,7 +52,7 @@ public class BuildWorkoutPresenterImpl implements BuildWorkoutPresenter {
 
         try{
             int active = Integer.parseInt(activeTime);
-            if (active >= 0){
+            if (active <= 0){
                 mView.showMessage("Active time must be greater than zero");
                 return false;
             }
@@ -85,6 +85,9 @@ public class BuildWorkoutPresenterImpl implements BuildWorkoutPresenter {
             mView.showMessage("Invalid Rounds");
             return false;
         }
+
+
+        //TODO: Validate name is unique in table
 
 
         return true;

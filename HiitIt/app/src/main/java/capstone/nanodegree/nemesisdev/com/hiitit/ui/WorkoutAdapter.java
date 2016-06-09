@@ -2,9 +2,11 @@ package capstone.nanodegree.nemesisdev.com.hiitit.ui;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -24,6 +26,7 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutH
     private WorkoutSelectedListener mListener;
     private List<Workout> mData = new ArrayList<>(INITIAL_CAPACITY);
 
+    private static final String TAG = "WORKOUTADAPTER";
 
     public WorkoutAdapter(WorkoutSelectedListener listener) {
         mListener = listener;
@@ -34,6 +37,10 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutH
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.list_item_workout, parent, false);
         return new WorkoutHolder(view);
 
+    }
+
+    public void removeItem(int pos){
+        mData.remove(pos);
     }
 
     @Override
@@ -74,6 +81,8 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutH
             e.printStackTrace();
         }
 
+        //holder.mDeleteWorkout.setOnClickListener(mListener.onWorkoutDeleted(workout.getId(), position));
+
     }
 
     @Override
@@ -94,17 +103,28 @@ public class WorkoutAdapter extends RecyclerView.Adapter<WorkoutAdapter.WorkoutH
         TextView workoutActiveTime;
         TextView workoutRestTime;
         TextView workoutTotalTime;
+        Button mDeleteWorkout;
 
         public WorkoutHolder(View view){
             super(view);
+            view.setOnClickListener(this);
             workoutName = (TextView) view.findViewById(R.id.item_workout_name);
             workoutRounds = (TextView) view.findViewById(R.id.item_workout_rounds);
             workoutActiveTime = (TextView) view.findViewById(R.id.item_workout_active_time);
             workoutRestTime = (TextView) view.findViewById(R.id.item_workout_rest_time);
+            mDeleteWorkout = (Button) view.findViewById(R.id.button_delete_saved_workout);
+            mDeleteWorkout.setOnClickListener(this);
         }
 
         @Override
-        public void onClick(View v) {mListener.onWorkoutSelected(workoutId);}
+        public void onClick(View v) {
+            Log.v(TAG, "View: " + v.toString() + " clicked");
+            if (v.getId() == mDeleteWorkout.getId()){
+                mListener.onWorkoutDeleted(workoutId, getAdapterPosition());
+            }else{
+                mListener.onWorkoutSelected(workoutId);
+            }
+        }
     }
 
 }

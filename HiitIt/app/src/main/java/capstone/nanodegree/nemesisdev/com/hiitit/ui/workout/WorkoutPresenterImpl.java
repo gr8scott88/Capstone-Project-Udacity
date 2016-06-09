@@ -26,4 +26,9 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
     public void tick() {
         
     }
+
+    @Override
+    public void saveWorkoutInfo() {
+
+    }
 }

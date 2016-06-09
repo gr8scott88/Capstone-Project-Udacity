@@ -18,5 +18,6 @@ public interface WorkoutView {
     void onRoundChanged(String round);
     void onStatusChanged(String status);
     void onWorkoutCompleted();
+    void onEndWorkoutClicked();
 
 }

@@ -10,5 +10,5 @@ import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 public interface LoadWorkoutView {
 
     void onWorkoutsLoaded(List<Workout> workouts);
-
+    void showMessage(String msg);
 }

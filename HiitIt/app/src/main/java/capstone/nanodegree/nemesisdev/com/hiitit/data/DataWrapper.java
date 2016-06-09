@@ -19,6 +19,8 @@ public interface DataWrapper {
     Workout getWorkoutById(int id);
     Uri saveWorkout(Workout w);
     Workout getMostRecent();
+    int deleteWorkout(int id);
+
 
 
 }

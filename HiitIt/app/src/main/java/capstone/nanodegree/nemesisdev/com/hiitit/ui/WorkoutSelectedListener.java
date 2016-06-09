@@ -7,4 +7,7 @@ public interface WorkoutSelectedListener {
 
     void onWorkoutSelected(int workoutId);
 
+    void onWorkoutDeleted(int workoutId, int pos);
+
+
 }

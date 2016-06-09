@@ -29,7 +29,7 @@ public class WorkoutProvider extends ContentProvider {
     private static final String sHistoryPastDate =
             HiitContract.HistoryEntry.TABLE_NAME + "." + HiitContract.HistoryEntry.COLUMN_DATE + ">= ? ";
 
-
+    private static final String sDeleteWorkotuWithId = HiitContract.WorkoutEntry.TABLE_NAME + "." + HiitContract.WorkoutEntry._ID + "=? ";
 
 
     @Override
@@ -146,7 +146,24 @@ public class WorkoutProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+        final SQLiteDatabase db = mDbHelper.getWritableDatabase();
+        final int match = sUriMatcher.match(uri);
+        int rowsDeleted;
+        switch (match){
+            case WORKOUTS:
+                rowsDeleted = db.delete(HiitContract.WorkoutEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            case HISTORY:
+                rowsDeleted = db.delete(HiitContract.HistoryEntry.TABLE_NAME, selection, selectionArgs);
+                break;
+            default:
+                throw new UnsupportedOperationException("Unknown uri: " + uri);
+        }
+        if (rowsDeleted != 0){
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsDeleted;
     }
 
     @Override

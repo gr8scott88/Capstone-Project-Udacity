@@ -89,4 +89,9 @@ public class LocalDataWrapper implements DataWrapper {
     public Workout getWorkoutById(int id) {
         return null;
     }
+
+    @Override
+    public int deleteWorkout(int id) {
+        return mContentResolver.delete(HiitContract.WorkoutEntry.CONTENT_URI, HiitContract.WorkoutEntry._ID + "=?", new String[] {Integer.toString(id)});
+    }
 }
