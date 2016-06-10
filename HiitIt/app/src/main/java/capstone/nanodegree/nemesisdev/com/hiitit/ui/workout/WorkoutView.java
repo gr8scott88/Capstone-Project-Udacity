@@ -8,7 +8,7 @@ import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
  */
 public interface WorkoutView {
 
-    void onWorkoutLoaded(Workout w);
+    void populateWorkoutDetails();
     void pauseWorkout();
     void resumeWorkout();
     void endWorkout(HistoryItem h);
@@ -19,5 +19,8 @@ public interface WorkoutView {
     void onStatusChanged(String status);
     void onWorkoutCompleted();
     void onEndWorkoutClicked();
+
+    void goButtonPressed();
+    void showMessage(String msg);
 
 }

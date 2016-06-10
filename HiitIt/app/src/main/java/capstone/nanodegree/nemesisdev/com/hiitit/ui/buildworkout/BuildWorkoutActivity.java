@@ -85,7 +85,7 @@ public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutVi
         String rounds =  mRounds.getText().toString();
         boolean goodData = mPresenter.verifyInput(name, activeTime, breakTime, rounds);
         if (goodData) {
-            Workout w = new Workout(name, activeTime, breakTime, rounds);
+            Workout w = new Workout(name, rounds, activeTime, breakTime);
             mPresenter.saveWorkout(w);
             startWorkout(w);
         }
@@ -94,7 +94,7 @@ public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutVi
     @Override
     public void startWorkout(Workout w) {
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("PASSEDWORKOUT", w);
+        intent.putExtra(PASSED_WORKOUT, w);
         startActivity(intent);
 
     }

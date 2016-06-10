@@ -22,6 +22,7 @@ public class WorkoutProvider extends ContentProvider {
     private WorkoutDbHelper mDbHelper;
 
     static final int WORKOUTS = 100;
+    static final int WORKOUTS_BY_ID = 101;
 
     static final int HISTORY = 200;
     static final int HISTORY_FROM_DATE = 201;
@@ -29,7 +30,7 @@ public class WorkoutProvider extends ContentProvider {
     private static final String sHistoryPastDate =
             HiitContract.HistoryEntry.TABLE_NAME + "." + HiitContract.HistoryEntry.COLUMN_DATE + ">= ? ";
 
-    private static final String sDeleteWorkotuWithId = HiitContract.WorkoutEntry.TABLE_NAME + "." + HiitContract.WorkoutEntry._ID + "=? ";
+    private static final String sModifyWorkoutById = HiitContract.WorkoutEntry.TABLE_NAME + "." + HiitContract.WorkoutEntry._ID + "=? ";
 
 
     @Override
@@ -78,12 +79,31 @@ public class WorkoutProvider extends ContentProvider {
                 retCursor = mDbHelper.getReadableDatabase().query(
                         HiitContract.HistoryEntry.TABLE_NAME,
                         projection,
-                        sHistoryPastDate,
-                        selectionArgs,
+                        null,
+                        null,
                         null,
                         null,
                         sortOrder
                 );
+                break;
+
+            case WORKOUTS_BY_ID:
+                Log.v(TAG, "Querying workout by id");
+                int id = HiitContract.WorkoutEntry.getIdFromUri(uri);
+                retCursor = mDbHelper.getReadableDatabase().query(
+                        HiitContract.WorkoutEntry.TABLE_NAME,
+                        projection,
+                        sModifyWorkoutById,
+                        new String[] {Integer.toString(id)},
+                        null,
+                        null,
+                        sortOrder
+                );
+
+
+
+                break;
+
 
             default:
                 throw new UnsupportedOperationException("Unknown uri: " + uri);
@@ -93,6 +113,8 @@ public class WorkoutProvider extends ContentProvider {
         return retCursor;
 
     }
+
+
 
     @Nullable
     @Override
@@ -223,13 +245,15 @@ public class WorkoutProvider extends ContentProvider {
         final UriMatcher matcher = new UriMatcher(UriMatcher.NO_MATCH);
         final String authority = HiitContract.CONTENT_AUTHORITY;
 
-        // For each type of URI you want to add, create a corresponding code.
+        //Match when general WORKOUT is requested
         matcher.addURI(authority, HiitContract.PATH_WORKOUT, WORKOUTS);
 
-        // For each type of URI you want to add, create a corresponding code.
+        //Match when general HISTORY is requested
         matcher.addURI(authority, HiitContract.PATH_HISTORY, HISTORY);
 
-        //matcher.addURI(authority, HiitContract.PATH_HISTORY, HISTORY_FROM_DATE);
+        //Match when a WORKOUT with a specific ID is requested
+        matcher.addURI(authority, HiitContract.PATH_WORKOUT + "/*", WORKOUTS_BY_ID);
+
         return matcher;
     }
 

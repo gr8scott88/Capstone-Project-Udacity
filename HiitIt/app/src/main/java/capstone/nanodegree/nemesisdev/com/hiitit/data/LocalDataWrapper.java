@@ -80,14 +80,66 @@ public class LocalDataWrapper implements DataWrapper {
     }
 
     @Override
-    public Workout getMostRecent() {
-        return null;
+    public Workout getMostRecentWorkout() {
+
+        Uri getWorkoutsURI = HiitContract.WorkoutEntry.CONTENT_URI;
+        Uri getHistoryURI = HiitContract.HistoryEntry.CONTENT_URI;
+
+        String sortOrder =  HiitContract.HistoryEntry.COLUMN_DATE + " DESC";
+        String[] histProjection = new String[] {HiitContract.HistoryEntry.COLUMN_WORKOUT_KEY};
+
+        Cursor cursor = mContentResolver.query(getHistoryURI,
+                histProjection,
+                null,
+                null,
+                sortOrder);
+
+        cursor.moveToFirst();
+        int workoutId = cursor.getInt(0);
+
+
+        ContentValues values = mWorkoutConverter.convert(cursor);
+        Workout workout = mWorkoutConverter.convert(values);
+        return workout;
     }
 
+    @Override
+    public int getMostRecentWorkoutId() {
+
+        Uri getHistoryURI = HiitContract.HistoryEntry.CONTENT_URI;
+
+        String sortOrder =  HiitContract.HistoryEntry.COLUMN_DATE + " DESC";
+        String[] histProjection = new String[] {HiitContract.HistoryEntry.COLUMN_WORKOUT_KEY};
+
+        Cursor cursor = mContentResolver.query(getHistoryURI,
+                histProjection,
+                null,
+                null,
+                sortOrder);
+
+        cursor.moveToFirst();
+        int workoutId = cursor.getInt(0);
+
+        return workoutId;
+    }
 
     @Override
     public Workout getWorkoutById(int id) {
-        return null;
+        Uri getWorkoutsByIdURI = HiitContract.WorkoutEntry.buildWorkoutUri(id);
+        String sortOrder =  HiitContract.WorkoutEntry._ID + " ASC";
+
+        Cursor cursor = mContentResolver.query(getWorkoutsByIdURI,
+                null,
+                null,
+                null,
+                sortOrder);
+
+
+
+        cursor.moveToFirst();
+        ContentValues values = mWorkoutConverter.convert(cursor);
+        Workout workout = mWorkoutConverter.convert(values);
+        return workout;
     }
 
     @Override

@@ -7,6 +7,8 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.provider.BaseColumns;
 
+import java.util.List;
+
 /**
  * Created by Scott on 5/7/2016.
  */
@@ -49,6 +51,11 @@ public class HiitContract {
 
         public static Uri buildWorkoutUri(long id) {
             return ContentUris.withAppendedId(CONTENT_URI, id);
+        }
+
+        public static int getIdFromUri(Uri uri){
+            List<String> segments = uri.getPathSegments();
+            return Integer.parseInt(segments.get(1));
         }
 
     }

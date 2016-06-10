@@ -20,6 +20,7 @@ import capstone.nanodegree.nemesisdev.com.hiitit.R;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.HiitContract;
+import capstone.nanodegree.nemesisdev.com.hiitit.data.LocalDataWrapper;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.WorkoutDbHelper;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 import capstone.nanodegree.nemesisdev.com.hiitit.debug.TestDataBuilder;
@@ -49,7 +50,7 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView{
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_menu);
-        mPresenter = new MainMenuPresenterImpl(this);
+        mPresenter = new MainMenuPresenterImpl(this, new LocalDataWrapper(getContentResolver()));
         ButterKnife.setDebug(true);
         ButterKnife.bind(this);
         Assert.assertNotNull(mButtonQuickStart);
@@ -81,10 +82,11 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView{
         switch (id){
             case R.id.button_quickstart:
                 intent = new Intent(this, WorkoutActivity.class);
-                //TODO: get a real workout ID based on most recent workout
-                int loadedWorkoutId = 0;
-                intent.putExtra(QUICK_LOAD_WORKOUT, loadedWorkoutId);
+                int loadedWorkoutId = mPresenter.loadMostRecentWorkoutId();
+                intent.putExtra(PASSED_WORKOUT_ID, loadedWorkoutId);
+                intent.putExtra(IS_LOADED_WORKOUT, true);
                 startActivity(intent);
+
                 break;
 
             case R.id.button_load_workout:

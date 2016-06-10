@@ -67,7 +67,8 @@ public class LoadWorkoutActivity extends BaseActivity implements LoadWorkoutView
     public void onWorkoutSelected(int workoutId) {
         showMessage("Clicked: " + workoutId);
         Intent intent = new Intent(this, WorkoutActivity.class);
-        intent.putExtra("LOADEDWORKOUT", workoutId);
+        intent.putExtra(PASSED_WORKOUT_ID, workoutId);
+        intent.putExtra(IS_LOADED_WORKOUT, true);
         startActivity(intent);
     }
 

@@ -3,8 +3,13 @@ package capstone.nanodegree.nemesisdev.com.hiitit.ui.workout;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.Button;
+import android.widget.FrameLayout;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.w3c.dom.Text;
 
@@ -24,12 +29,16 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     private Workout mWorkout;
     private WorkoutPresenter mPresenter;
 
+    private static final String TAG = "WORKOUTACTIVIYT";
 
     @BindView(R.id.workout_current_time) TextView mCurrentTime;
     @BindView(R.id.current_cycle_string) TextView mCurrentRound;
     @BindView(R.id.workout_status) TextView mCurrentStatus;
     @BindView(R.id.time_remaining_string) TextView mTimeRemaining;
     @BindView(R.id.button_end_workout) Button mButtonEndWorkout;
+    @BindView(R.id.button_workout_go) ImageButton mButtonGo;
+    @BindView(R.id.go_button_background) FrameLayout mGoButtonBackground;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,23 +48,43 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
 
 
         try{
-            mWorkout = getIntent().getParcelableExtra("PASSEDWORKOUT");
+            mWorkout = getIntent().getParcelableExtra(PASSED_WORKOUT);
+            if (mWorkout != null){
+                Log.v(TAG, "Loaded workout via passed parcelable workout");
+            }
+
         }catch (Exception e){
             e.printStackTrace();
         }
 
         if (mWorkout == null){
             try{
-                int loadedId = getIntent().getIntExtra("LOADEDWORKOUT", -1);
-                mPresenter.loadWorkout(loadedId);
+                int loadedId = getIntent().getIntExtra(PASSED_WORKOUT_ID, -1);
+                mWorkout = mPresenter.loadWorkout(loadedId);
+                if (mWorkout != null){
+                    Log.v(TAG, "Loaded workout via passed id");
+                }
+
             }catch (Exception e){
                 e.printStackTrace();
             }
         }
 
+        try{
+            boolean isLoaded = getIntent().getBooleanExtra(IS_LOADED_WORKOUT, false);
+            if (isLoaded){
+                showMessage("Loaded workout " + mWorkout.getName());
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+
 
         ButterKnife.setDebug(true);
         ButterKnife.bind(this);
+
+        initViews();
+
     }
 
 
@@ -68,22 +97,29 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
         startActivity(intent);
     }
 
+    @OnClick(R.id.button_workout_go)
+    @Override
+    public void goButtonPressed() {
+        mGoButtonBackground.setVisibility(View.GONE);
+        mPresenter.startWorkout(mWorkout);
+    }
 
     private void initViews(){
-
-
+        if (mWorkout != null){
+            populateWorkoutDetails();
+        }else{
+            showMessage("Failed to load workout");
+        }
     }
 
     @Override
-    public void onWorkoutLoaded(Workout w) {
-        mWorkout = w;
-        mCurrentStatus.setText("READY");
-        mCurrentTime.setText(mWorkout.getActiveTime()+"");
-        mCurrentRound.setText("1 of " + mWorkout.getRounds());
-        mTimeRemaining.setText(mWorkout.getTotalWorkoutTime()+"");
+    public void showMessage(String msg) {
+        Toast.makeText(WorkoutActivity.this, msg, Toast.LENGTH_SHORT).show();
     }
 
-    public void onWorkoutLoaded(){
+    @Override
+    public void populateWorkoutDetails() {
+        Log.v(TAG, "Loaded workout: " +  mWorkout.getName());
         mCurrentStatus.setText("READY");
         mCurrentTime.setText(mWorkout.getActiveTime()+"");
         mCurrentRound.setText("1 of " + mWorkout.getRounds());

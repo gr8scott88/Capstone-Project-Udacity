@@ -45,7 +45,7 @@ public class BuildWorkoutPresenterImpl implements BuildWorkoutPresenter {
 
     @Override
     public boolean verifyInput(String name, String activeTime, String breakTime, String rounds) {
-        if (name == ""){
+        if (name.length() == 0){
             mView.showMessage("Invalid Name");
             return false;
         }

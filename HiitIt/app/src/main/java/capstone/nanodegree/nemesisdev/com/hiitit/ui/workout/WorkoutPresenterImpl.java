@@ -1,7 +1,7 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.ui.workout;
 
 import capstone.nanodegree.nemesisdev.com.hiitit.data.LocalDataWrapper;
-import capstone.nanodegree.nemesisdev.com.hiitit.ui.loadworkout.LoadWorkoutView;
+import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 
 /**
  * Created by Scott on 5/7/2016.
@@ -18,8 +18,8 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
     }
 
     @Override
-    public void loadWorkout(int workoutId) {
-        mView.onWorkoutLoaded(mDataWrapper.getWorkoutById(workoutId));
+    public Workout loadWorkout(int workoutId) {
+        return mDataWrapper.getWorkoutById(workoutId);
     }
 
     @Override
@@ -29,6 +29,11 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
 
     @Override
     public void saveWorkoutInfo() {
+
+    }
+
+    @Override
+    public void startWorkout(Workout w) {
 
     }
 }
