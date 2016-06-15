@@ -1,7 +1,12 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.ui.workout;
 
+import android.content.BroadcastReceiver;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
+import android.content.IntentFilter;
+import android.content.ServiceConnection;
+import android.os.IBinder;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -11,12 +16,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.w3c.dom.Text;
-
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
-import butterknife.OnLongClick;
 import capstone.nanodegree.nemesisdev.com.hiitit.BaseActivity;
 import capstone.nanodegree.nemesisdev.com.hiitit.R;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.LocalDataWrapper;
@@ -28,16 +30,44 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
 
     private Workout mWorkout;
     private WorkoutPresenter mPresenter;
+    private boolean bPaused;
+    private boolean bIsBound = false;
+    private WorkoutTimer2 mWorkoutTimer;
 
     private static final String TAG = "WORKOUTACTIVIYT";
 
     @BindView(R.id.workout_current_time) TextView mCurrentTime;
     @BindView(R.id.current_cycle_string) TextView mCurrentRound;
     @BindView(R.id.workout_status) TextView mCurrentStatus;
-    @BindView(R.id.time_remaining_string) TextView mTimeRemaining;
+    @BindView(R.id.time_elapsed_string) TextView mTimeElapsedField;
     @BindView(R.id.button_end_workout) Button mButtonEndWorkout;
     @BindView(R.id.button_workout_go) ImageButton mButtonGo;
     @BindView(R.id.go_button_background) FrameLayout mGoButtonBackground;
+
+
+    private BroadcastReceiver br = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            mPresenter.processBroadcasts(intent); // or whatever method used to update your GUI fields
+        }
+    };
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+
+        public void onServiceConnected(ComponentName className,
+                                       IBinder service) {
+            WorkoutTimer2.LocalBinder binder = (WorkoutTimer2.LocalBinder) service;
+            mWorkoutTimer = binder.getService();
+            bIsBound = true;
+            Log.v(TAG, "Service Bound");
+            mWorkoutTimer.setupService(mWorkout);
+        }
+
+        public void onServiceDisconnected(ComponentName arg0) {
+            bIsBound = false;
+        }
+
+    };
 
 
     @Override
@@ -88,12 +118,43 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     }
 
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        registerReceiver(br, new IntentFilter(WorkoutTimer2.TIMERSERVICE_BR));
+        Intent serviceIntent = new Intent(this, WorkoutTimer2.class);
+        startService(serviceIntent);
+        boolean success = getApplicationContext().bindService(serviceIntent,mConnection, Context.BIND_AUTO_CREATE);
+
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (bIsBound) {
+            Log.v(TAG, "Service Unbound");
+            mWorkoutTimer.UnBind();
+            getApplicationContext().unbindService(mConnection);
+            bIsBound = false;
+        }
+        unregisterReceiver(br);
+
+    }
 
     @OnClick(R.id.button_end_workout)
     @Override
     public void onEndWorkoutClicked() {
         Intent intent = new Intent(this, MainMenuActivity.class);
-        mPresenter.saveWorkoutInfo();
+        //    void saveWorkoutInfo(int id, int activeTime, int duration);
+        //mWorkoutTimer.getWorkoutInfo();
+        //mPresenter.saveWorkoutInfo();
+        mWorkoutTimer.stopTimer();
         startActivity(intent);
     }
 
@@ -102,6 +163,8 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     public void goButtonPressed() {
         mGoButtonBackground.setVisibility(View.GONE);
         mPresenter.startWorkout(mWorkout);
+        //mWorkoutTimer.resetTimerIfNecessary();
+        mWorkoutTimer.startTimer();
     }
 
     private void initViews(){
@@ -123,7 +186,7 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
         mCurrentStatus.setText("READY");
         mCurrentTime.setText(mWorkout.getActiveTime()+"");
         mCurrentRound.setText("1 of " + mWorkout.getRounds());
-        mTimeRemaining.setText(mWorkout.getTotalWorkoutTime()+"");
+        mTimeElapsedField.setText(mWorkout.getTotalWorkoutTime()+"");
     }
 
     @Override
@@ -149,8 +212,9 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     }
 
     @Override
-    public void onTimeChanged(String time) {
-        mCurrentTime.setText(time);
+    public void onTimeChanged(String elapsedTime, String stepTime) {
+        mCurrentTime.setText(stepTime);
+        mTimeElapsedField.setText(elapsedTime);
     }
 
     @Override

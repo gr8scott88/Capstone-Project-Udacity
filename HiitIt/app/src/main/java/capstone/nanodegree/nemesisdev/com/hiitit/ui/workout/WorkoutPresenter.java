@@ -1,5 +1,7 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.ui.workout;
 
+import android.content.Intent;
+
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 
 /**
@@ -9,8 +11,10 @@ public interface WorkoutPresenter {
 
     Workout loadWorkout(int workoutId);
     void tick();
-    void saveWorkoutInfo();
+    void saveWorkoutInfo(int id, int activeTime, int duration);
     void startWorkout(Workout w);
+    void processBroadcasts(Intent i);
+
 
 
 

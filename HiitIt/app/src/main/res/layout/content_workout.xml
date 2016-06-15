@@ -23,14 +23,14 @@
             android:id="@+id/workout_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="GO!"
+            android:text="READY"
             android:layout_gravity="center_horizontal"/>
 
         <TextView
             android:id="@+id/workout_current_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:20"
+            android:text="00:01"
             android:layout_gravity="center_horizontal"/>
 
         <LinearLayout
@@ -70,10 +70,10 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Cycle"/>
+                    android:text="Elapsed"/>
 
                 <TextView
-                    android:id="@+id/time_remaining_string"
+                    android:id="@+id/time_elapsed_string"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="04:00"/>
@@ -87,7 +87,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="End Workout"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center_horizontal"
+           />
 
     </LinearLayout>
 

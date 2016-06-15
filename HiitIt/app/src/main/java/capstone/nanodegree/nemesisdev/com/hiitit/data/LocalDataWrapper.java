@@ -5,6 +5,7 @@ import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v7.widget.LinearSmoothScroller;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +22,7 @@ import rx.Subscriber;
  * Created by Scott on 5/16/2016.
  */
 public class LocalDataWrapper implements DataWrapper {
-
+    private static final String TAG = "LocalDataWrapper";
     private ContentResolver mContentResolver;
     private Converter<Workout> mWorkoutConverter;
     private Converter<HistoryItem> mHistoryConverter;
@@ -133,9 +134,6 @@ public class LocalDataWrapper implements DataWrapper {
                 null,
                 null,
                 sortOrder);
-
-
-
         cursor.moveToFirst();
         ContentValues values = mWorkoutConverter.convert(cursor);
         Workout workout = mWorkoutConverter.convert(values);
@@ -145,5 +143,22 @@ public class LocalDataWrapper implements DataWrapper {
     @Override
     public int deleteWorkout(int id) {
         return mContentResolver.delete(HiitContract.WorkoutEntry.CONTENT_URI, HiitContract.WorkoutEntry._ID + "=?", new String[] {Integer.toString(id)});
+    }
+
+
+    @Override
+    public Uri recordHistory(HistoryItem h) {
+        //    public HistoryItem(int id, long date, int workoutId, int duration, int activeTime, int difficulty) {
+        //HistoryItem h = new HistoryItem(0, date, id, totalDuration, activeTime, 0);
+        Uri uri = null;
+        try{
+            ContentValues cv = mHistoryConverter.convert(h);
+            uri = mContentResolver.insert(HiitContract.HistoryEntry.CONTENT_URI, cv);
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        Log.v(TAG, "Logged today's workout");
+        return uri;
+
     }
 }

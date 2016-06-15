@@ -21,7 +21,6 @@ public interface DataWrapper {
     Workout getMostRecentWorkout();
     int getMostRecentWorkoutId();
     int deleteWorkout(int id);
-
-
+    Uri recordHistory(HistoryItem h);
 
 }

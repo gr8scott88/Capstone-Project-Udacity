@@ -14,7 +14,7 @@ public interface WorkoutView {
     void endWorkout(HistoryItem h);
     void saveWorkoutDetails(HistoryItem h);
 
-    void onTimeChanged(String time);
+    void onTimeChanged(String timeElapsed, String stepTime);
     void onRoundChanged(String round);
     void onStatusChanged(String status);
     void onWorkoutCompleted();

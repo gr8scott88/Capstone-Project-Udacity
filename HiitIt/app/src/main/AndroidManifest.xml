@@ -46,6 +46,21 @@
             android:authorities="capstone.nanodegree.nemesisdev.com.hiitit"
             android:enabled="true"
             android:exported="true"/>
+
+
+
+        <service
+            android:name=".ui.workout.WorkoutTimer"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
+        <service
+            android:name=".ui.workout.WorkoutTimer2"
+            android:enabled="true"
+            android:exported="true" >
+        </service>
+
     </application>
 
 </manifest>
