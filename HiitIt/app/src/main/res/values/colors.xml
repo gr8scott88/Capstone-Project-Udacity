@@ -5,4 +5,9 @@
     <color name="colorAccent">#FF4081</color>
     <color name="textLight">#ffffff</color>
     <color name="textDark">#000000</color>
+
+    <color name="statusGo">@color/md_green_500</color>
+    <color name="statusRest">@color/md_orange_500</color>
+    <color name="statusPause">@color/md_yellow_600</color>
+    <color name="statusComplete">@color/md_blue_200</color>
 </resources>
