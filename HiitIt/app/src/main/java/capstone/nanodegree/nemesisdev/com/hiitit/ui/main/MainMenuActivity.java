@@ -60,12 +60,17 @@ public class MainMenuActivity extends BaseActivity implements MainMenuView{
 
     private void debugTesting(){
 
-        mTestDataBuilder  = new TestDataBuilder(this);
-        int workoutsAdded  = mTestDataBuilder.insertWorkouts();
-        int historyAdded = mTestDataBuilder.insertHistory();
+        if (bIsFirstRun){
+            mTestDataBuilder  = new TestDataBuilder(this);
+            int workoutsAdded  = mTestDataBuilder.insertWorkouts();
+            //int historyAdded = mTestDataBuilder.insertHistory();
 
-        Log.v(TAG, "Added " + workoutsAdded + " workouts");
-        Log.v(TAG, "Added " + historyAdded + " histories");
+            Log.v(TAG, "Added " + workoutsAdded + " workouts");
+            //Log.v(TAG, "Added " + historyAdded + " histories");
+
+            setNotFirstRun();
+
+        }
 
     }
 

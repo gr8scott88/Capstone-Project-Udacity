@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context=".ui.buildworkout.BuildWorkoutActivity"
+    tools:showIn="@layout/activity_build_workout">
+
+
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:useDefaultMargins="true"
+        android:columnCount="4">
+
+
+        <EditText
+            android:id="@+id/newWorkoutName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Workout Name"
+            android:gravity="center_horizontal"
+            android:textSize="26dp"
+            android:layout_columnSpan="4"/>
+
+
+        <ImageView
+            android:id="@+id/active_icon"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_active_time"
+            android:layout_marginEnd="20dp"
+            />
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Exercise Time"/>
+
+
+        <EditText
+            android:id="@+id/exercise_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="20"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sec"
+            />
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_rest_time"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Break Time"/>
+
+        <EditText
+            android:id="@+id/break_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="10"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="sec"/>
+
+
+
+        <ImageView
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/icon_round_count"
+            android:layout_marginEnd="20dp"
+            />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rounds"/>
+
+        <EditText
+            android:id="@+id/round_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="08"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="x"/>
+
+
+
+        <TextView
+            android:paddingTop="25dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Total Workout Time"
+            android:layout_gravity="center_horizontal"
+            android:layout_column="0"
+            android:layout_columnSpan="4"
+            android:textSize="25dp"/>
+
+        <TextView
+            android:id="@+id/calculated_workout_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="04:00"
+            android:layout_gravity="center_horizontal"
+            android:layout_column="0"
+            android:layout_columnSpan="4"
+            android:textSize="40dp"/>
+
+
+        <ImageButton
+            android:layout_marginTop="25dp"
+            android:id="@+id/button_start_workout"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_column="0"
+            android:layout_columnSpan="4"
+            android:background="@drawable/icon_play_button"
+            />
+
+
+    </GridLayout>
+
+
+</RelativeLayout>

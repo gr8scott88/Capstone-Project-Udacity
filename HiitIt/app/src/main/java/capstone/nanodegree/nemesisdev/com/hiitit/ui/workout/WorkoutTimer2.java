@@ -8,8 +8,7 @@ import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
-import junit.framework.Test;
-
+import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.HistoryItem;
 import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
 import capstone.nanodegree.nemesisdev.com.hiitit.utils.WorkoutAudioManager;
 import capstone.nanodegree.nemesisdev.com.hiitit.utils.WorkoutManager2;
@@ -54,6 +53,8 @@ public class WorkoutTimer2 extends Service {
         mManager = new WorkoutManager2(w);
         Log.v(TAG, mManager.toString());
         mAudioManager = new WorkoutAudioManager(this, "2");
+        broadcastInfoToActivity(1);
+        //printWorkoutStatus();
     }
 
     private TimerRunnable timerRunnable = new TimerRunnable();
@@ -71,11 +72,14 @@ public class WorkoutTimer2 extends Service {
             }
 
             int status = mManager.isStatusChange(mTimeElapsed);
+
+            printWorkoutStatus(status);
+            //Log.v(TAG, Integer.toString(status));
             if(status == 0){
                 broadcastInfoToActivity(0);
             }else if (status == 1){
                 mAudioManager.playChime();
-                mCurrentStepTimeLeft = mManager.getNewDuration();
+                mCurrentStepTimeLeft = mManager.getDuration();
                 broadcastInfoToActivity(1);
             }else if (status == 2){
                 bIsComplete = true;
@@ -102,9 +106,21 @@ public class WorkoutTimer2 extends Service {
     public void incrementTime(){
         mTimeElapsed++;
         mCurrentStepTimeLeft--;
-        Log.v(TAG, "Total Time Elapsed: " + mTimeElapsed);
-        Log.v(TAG, "Current Step Time Left: " + mCurrentStepTimeLeft);
+        //printWorkoutStatus();
+        //Log.v(TAG, "Total Time Elapsed: " + mTimeElapsed);
+        //Log.v(TAG, "Current Step Time Left: " + mCurrentStepTimeLeft);
     };
+
+    private void printWorkoutStatus(){
+        String workoutString = String.format("Status: %s, Round: %d, Time Elapsed: %d, Next Step Time: %d, Step Time Remaining: %d", mManager.getNewStatus(), mManager.getCurrentRound(), mTimeElapsed, mManager.getTransitionTime(), mCurrentStepTimeLeft);
+        Log.v(TAG, workoutString);
+    }
+
+    private void printWorkoutStatus(int status){
+        String workoutString = String.format("Current Step: %d, Status Compare: %d, Status: %s, Round: %d, Time Elapsed: %d, Next Step Time: %d, Step Time Remaining: %d", mManager.getCurrentStep(), status, mManager.getNewStatus(), mManager.getCurrentRound(), mTimeElapsed, mManager.getTransitionTime(), mCurrentStepTimeLeft);
+        Log.v(TAG, workoutString);
+
+    }
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -143,14 +159,16 @@ public class WorkoutTimer2 extends Service {
     public boolean stopTimer(){
         timerRunnable.killRunnable();
         mHandler.removeCallbacks(timerRunnable);
-        bi.putExtra(ServiceContract.COMPLETED_ACTIVE_TIME, mManager.getActiveTime());
-        bi.putExtra(ServiceContract.WORKOUT_ID, mManager.getWorkoutId());
-        bi.putExtra(ServiceContract.WORKOUT_COMPLETE, true);
-        bi.putExtra(ServiceContract.TOTAL_DURATION, mTimeElapsed);
-        sendBroadcast(bi);
         stopSelf();
-        mTimeElapsed = 0;
+        //mTimeElapsed = 0;
         return true;
+    }
+
+    public HistoryItem getCompeletedHistoryItem(){
+        long millis = System.currentTimeMillis() % 1000;
+        Log.v(TAG, "Current sytem time in millis: " + millis);
+        HistoryItem h = new HistoryItem(0, millis, mManager.getWorkoutId(),mTimeElapsed,  mManager.getActiveTime(), -1);
+        return h;
     }
 
 }

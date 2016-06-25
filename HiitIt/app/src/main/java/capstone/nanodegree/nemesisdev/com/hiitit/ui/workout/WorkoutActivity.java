@@ -32,7 +32,6 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     private WorkoutPresenter mPresenter;
     private boolean bPaused;
     private boolean bIsBound = false;
-    private WorkoutTimer2 mWorkoutTimer;
 
     private static final String TAG = "WORKOUTACTIVIYT";
 
@@ -43,7 +42,8 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     @BindView(R.id.button_end_workout) Button mButtonEndWorkout;
     @BindView(R.id.button_workout_go) ImageButton mButtonGo;
     @BindView(R.id.go_button_background) FrameLayout mGoButtonBackground;
-
+    @BindView(R.id.button_workout_complete) ImageButton mButtonComplete;
+    @BindView(R.id.workout_complete_background) FrameLayout mCompleteButtonBackground;
 
     private BroadcastReceiver br = new BroadcastReceiver() {
         @Override
@@ -57,10 +57,10 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
         public void onServiceConnected(ComponentName className,
                                        IBinder service) {
             WorkoutTimer2.LocalBinder binder = (WorkoutTimer2.LocalBinder) service;
-            mWorkoutTimer = binder.getService();
+            WorkoutTimer2 timer = binder.getService();
+            mPresenter.attachTimer(timer, mWorkout);
             bIsBound = true;
             Log.v(TAG, "Service Bound");
-            mWorkoutTimer.setupService(mWorkout);
         }
 
         public void onServiceDisconnected(ComponentName arg0) {
@@ -139,7 +139,8 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
         super.onStop();
         if (bIsBound) {
             Log.v(TAG, "Service Unbound");
-            mWorkoutTimer.UnBind();
+            mPresenter.unBindTimer();
+            //mWorkoutTimer.UnBind();
             getApplicationContext().unbindService(mConnection);
             bIsBound = false;
         }
@@ -150,21 +151,21 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     @OnClick(R.id.button_end_workout)
     @Override
     public void onEndWorkoutClicked() {
-        Intent intent = new Intent(this, MainMenuActivity.class);
-        //    void saveWorkoutInfo(int id, int activeTime, int duration);
-        //mWorkoutTimer.getWorkoutInfo();
-        //mPresenter.saveWorkoutInfo();
-        mWorkoutTimer.stopTimer();
-        startActivity(intent);
+        mPresenter.stopTimer();
+        mPresenter.workoutEnded();
+    }
+
+    @OnClick(R.id.button_workout_complete)
+    public void onCompleteClicked(){
+        endWorkout();
     }
 
     @OnClick(R.id.button_workout_go)
     @Override
     public void goButtonPressed() {
         mGoButtonBackground.setVisibility(View.GONE);
-        mPresenter.startWorkout(mWorkout);
         //mWorkoutTimer.resetTimerIfNecessary();
-        mWorkoutTimer.startTimer();
+        mPresenter.startTimer();
     }
 
     private void initViews(){
@@ -200,9 +201,9 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     }
 
     @Override
-    public void endWorkout(HistoryItem h) {
-        saveWorkoutDetails(h);
+    public void endWorkout() {
         Intent intent = new Intent(this, MainMenuActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
 
@@ -230,5 +231,10 @@ public class WorkoutActivity extends BaseActivity implements WorkoutView {
     @Override
     public void onWorkoutCompleted() {
 
+    }
+
+    @Override
+    public void showComplete() {
+        mCompleteButtonBackground.setVisibility(View.VISIBLE);
     }
 }

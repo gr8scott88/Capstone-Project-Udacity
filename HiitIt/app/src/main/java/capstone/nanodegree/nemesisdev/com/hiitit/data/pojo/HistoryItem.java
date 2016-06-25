@@ -60,4 +60,9 @@ public class HistoryItem {
     public void setDifficulty(int difficulty) {
         mDifficulty = difficulty;
     }
+
+    @Override
+    public String toString() {
+        return String.format("History: Date: %d%n, ID: %d, Duration: %d, Active Time: %d, Difficulty: %d", mDate, mId, mDuration, mActiveTime, mDifficulty);
+    }
 }

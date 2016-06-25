@@ -8,12 +8,14 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.main.MainMenuActivity">
+        <activity android:name=".ui.main.MainMenuActivity"
+                  android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
 
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+
         </activity>
         <activity
             android:name=".ui.buildworkout.BuildWorkoutActivity"
@@ -37,30 +39,32 @@
             android:label="@string/title_activity_profile"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
-        <activity android:name="capstone.nanodegree.nemesisdev.com.hiitit.AndroidDatabaseManager"
-                  android:theme="@style/Theme.AppCompat.Light"/>
-
+        <activity
+            android:name=".AndroidDatabaseManager"
+            android:theme="@style/Theme.AppCompat.Light"/>
 
         <provider
-            android:name="capstone.nanodegree.nemesisdev.com.hiitit.data.WorkoutProvider"
+            android:name=".data.WorkoutProvider"
             android:authorities="capstone.nanodegree.nemesisdev.com.hiitit"
             android:enabled="true"
             android:exported="true"/>
 
-
-
         <service
             android:name=".ui.workout.WorkoutTimer"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
         </service>
-
         <service
             android:name=".ui.workout.WorkoutTimer2"
             android:enabled="true"
-            android:exported="true" >
+            android:exported="true">
         </service>
 
+        <activity
+            android:name=".ui.credits.CreditsActivity"
+            android:label="@string/title_activity_credits"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

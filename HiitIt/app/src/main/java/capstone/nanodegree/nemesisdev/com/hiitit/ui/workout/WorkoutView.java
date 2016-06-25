@@ -11,7 +11,7 @@ public interface WorkoutView {
     void populateWorkoutDetails();
     void pauseWorkout();
     void resumeWorkout();
-    void endWorkout(HistoryItem h);
+    void endWorkout();
     void saveWorkoutDetails(HistoryItem h);
 
     void onTimeChanged(String timeElapsed, String stepTime);
@@ -19,6 +19,8 @@ public interface WorkoutView {
     void onStatusChanged(String status);
     void onWorkoutCompleted();
     void onEndWorkoutClicked();
+
+    void showComplete();
 
     void goButtonPressed();
     void showMessage(String msg);

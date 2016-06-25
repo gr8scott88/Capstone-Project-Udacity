@@ -1,5 +1,7 @@
 package capstone.nanodegree.nemesisdev.com.hiitit.utils;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -9,6 +11,9 @@ import capstone.nanodegree.nemesisdev.com.hiitit.data.pojo.Workout;
  * Created by Scott on 6/13/2016.
  */
 public class WorkoutManager2 {
+
+    private static final String TAG = "WORKOUTMANAGER2";
+
     public enum STATUS {
         READY ("READY"),
         SET ("SET"),
@@ -40,6 +45,7 @@ public class WorkoutManager2 {
 
     private int mActiveTime = 0;
     private int mWorkoutId;
+    private int mTransitionTime = 0;
 
     private List<WorkoutEvent> mEvents;
     private int currentStep = 0;
@@ -83,6 +89,7 @@ public class WorkoutManager2 {
 
     public WorkoutManager2(Workout w) {
         mEvents = buildEventList(w);
+        mTransitionTime = mEvents.get(currentStep+1).getTime();
         mWorkoutId = w.getId();
     }
 
@@ -93,9 +100,9 @@ public class WorkoutManager2 {
         int restTime = w.getRestTime();
 
         List<WorkoutEvent> events = new ArrayList<WorkoutEvent>();
-        events.add(new WorkoutEvent(1, STATUS.READY, 0, 1));
-        events.add(new WorkoutEvent(2, STATUS.SET, 0, 1));
-        events.add(new WorkoutEvent(3, STATUS.GO, 1, activeTime));
+        events.add(new WorkoutEvent(0, STATUS.READY, 0, 1));
+        events.add(new WorkoutEvent(1, STATUS.SET, 0, 1));
+        events.add(new WorkoutEvent(2, STATUS.GO, 1, activeTime));
 
 
         for (int r = 1; r < rounds; r++){
@@ -116,13 +123,25 @@ public class WorkoutManager2 {
     public int isStatusChange(int time){
         if (mEvents.get(currentStep).getStatus() == STATUS.GO){
             mActiveTime++;
+            Log.v(TAG, "Current active time: " + mActiveTime);
         }
 
-        if (time >= mEvents.get(currentStep).getTime() + mEvents.get(currentStep).getDuration()){
-            if (mEvents.get(currentStep).getStatus() == STATUS.COMPLETE){
+        //time >= mEvents.get(currentStep).getTime() + mEvents.get(currentStep).getDuration()
+        if (time >= mTransitionTime){
+            currentStep++;
+            STATUS currentStatus = mEvents.get(currentStep).getStatus();
+            Log.v(TAG, "Current status is: " + currentStatus.toString());
+
+            if (currentStatus == STATUS.COMPLETE){
+                Log.v(TAG, "Status is complete");
                 return 2;
             }else{
-                currentStep++;
+                try{
+                    mTransitionTime = mEvents.get(currentStep+1).getTime();
+                }catch (Exception e){
+                    mTransitionTime = mTransitionTime + 2;
+                }
+
                 return 1;
             }
 
@@ -138,15 +157,25 @@ public class WorkoutManager2 {
         return mEvents.get(currentStep).getRound();
     }
 
-    public int getNewDuration(){
+    public int getDuration(){
         return mEvents.get(currentStep).getDuration();
+    }
+
+    public int getTransitionTime() {
+        return mTransitionTime;
+    }
+
+    public int getCurrentStep() {
+        return currentStep;
     }
 
     @Override
     public String toString() {
         String s = "";
+        int step = 0;
         for (WorkoutEvent e : mEvents){
-            s = s + e.toString() + "\n";
+            s = s + "Step: " + step + " " + e.toString() + "\n";
+            step++;
         }
 
         return s;

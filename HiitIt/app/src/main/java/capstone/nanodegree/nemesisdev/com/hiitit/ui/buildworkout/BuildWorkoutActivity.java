@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,7 +35,7 @@ public class BuildWorkoutActivity extends BaseActivity implements BuildWorkoutVi
     @BindView(R.id.break_time) EditText mBreakTime;
     @BindView(R.id.round_count) EditText mRounds;
     @BindView(R.id.calculated_workout_time) TextView mTotalTime;
-    @BindView(R.id.button_start_workout) Button mStartWorkout;
+    @BindView(R.id.button_start_workout) ImageButton mStartWorkout;
 
     private BuildWorkoutPresenter mPresenter;
 

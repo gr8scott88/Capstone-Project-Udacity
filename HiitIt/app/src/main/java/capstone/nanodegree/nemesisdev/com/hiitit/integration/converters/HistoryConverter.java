@@ -25,7 +25,7 @@ public class HistoryConverter implements Converter<HistoryItem> {
         }
 
         ContentValues values = new ContentValues();
-        values.put(HiitContract.HistoryEntry._ID, hist.getId());
+        //values.put(HiitContract.HistoryEntry._ID, hist.getId());
         values.put(HiitContract.HistoryEntry.COLUMN_WORKOUT_KEY, hist.getWorkoutId());
         values.put(HiitContract.HistoryEntry.COLUMN_DATE, hist.getDate());
         values.put(HiitContract.HistoryEntry.COLUMN_ACTIVE_TIME, hist.getActiveTime());
