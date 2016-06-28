@@ -16,6 +16,8 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
     private LocalDataWrapper mDataWrapper;
     private WorkoutTimer2 mWorkoutTimer;
     private boolean bWorkoutComplete = false;
+    private boolean bIsPaused = false;
+    private boolean bIsStarted = false;
 
     public WorkoutPresenterImpl(WorkoutView view, LocalDataWrapper dataWrapper) {
         mView = view;
@@ -102,6 +104,7 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
 
     @Override
     public void workoutEnded() {
+        bWorkoutComplete = true;
         saveWorkoutInfo(mWorkoutTimer.getCompeletedHistoryItem());
         mView.showComplete();
     }
@@ -117,12 +120,41 @@ public class WorkoutPresenterImpl implements WorkoutPresenter{
     }
 
     @Override
-    public void pauseTimer() {
-        mWorkoutTimer.stopTimer();
+    public void pauseWorkout() {
+        mWorkoutTimer.pauseTimer();
+        mView.pauseWorkout();
+        bIsPaused = true;
+    }
+
+    @Override
+    public void startWorkout() {
+        bIsStarted = true;
+        mView.startWorkout();
+        startTimer();
+    }
+
+    @Override
+    public void unPauseWorkout() {
+        bIsPaused = false;
+        mView.resumeWorkout();
+        startTimer();
     }
 
     @Override
     public void unBindTimer() {
         mWorkoutTimer.UnBind();
+    }
+
+    @Override
+    public void mainWindowClicked() {
+        if (bWorkoutComplete){
+            mView.endWorkout();
+        }else if (!bIsStarted){
+            startWorkout();
+        }else if (bIsPaused){
+            unPauseWorkout();
+        }else{
+            pauseWorkout();
+        }
     }
 }

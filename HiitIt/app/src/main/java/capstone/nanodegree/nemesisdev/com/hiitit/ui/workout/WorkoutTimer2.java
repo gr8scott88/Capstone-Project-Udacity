@@ -53,7 +53,7 @@ public class WorkoutTimer2 extends Service {
         mManager = new WorkoutManager2(w);
         Log.v(TAG, mManager.toString());
         mAudioManager = new WorkoutAudioManager(this, "2");
-        broadcastInfoToActivity(1);
+        //broadcastInfoToActivity(1);
         //printWorkoutStatus();
     }
 
@@ -153,6 +153,12 @@ public class WorkoutTimer2 extends Service {
 
     public boolean startTimer(){
         mHandler.postDelayed(timerRunnable, 1000);
+        return true;
+    }
+
+
+    public boolean pauseTimer(){
+        mHandler.removeCallbacks(timerRunnable);
         return true;
     }
 

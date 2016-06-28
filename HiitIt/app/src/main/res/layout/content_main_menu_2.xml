@@ -16,8 +16,18 @@
         android:layout_height="wrap_content"
         android:useDefaultMargins="true"
         android:columnCount="2"
-        android:layout_gravity="center_horizontal"
-        android:paddingTop="25dp">
+        android:layout_gravity="center_horizontal|fill_vertical"
+        android:paddingTop="25dp"
+        android:paddingBottom="25dp"
+        android:alignmentMode="alignBounds">
+
+        <TextView
+            android:text="HIIT It!"
+            android:layout_columnSpan="2"
+            android:layout_gravity="center_horizontal"
+            android:textSize="45dp"
+            android:textStyle="bold"
+            android:paddingBottom="15dp"/>
 
         <Button
             style="@style/button_text"
@@ -26,9 +36,8 @@
             android:layout_height="120dp"
             android:text="Quick Start"
             android:id="@+id/button_quickstart"
-            android:layout_gravity="center_horizontal"
-            android:foregroundGravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center"
+            android:foregroundGravity="center_horizontal"/>
 
         <Button
             style="@style/button_text"
@@ -37,7 +46,7 @@
             android:layout_height="120dp"
             android:text="Load Workout"
             android:id="@+id/button_load_workout"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center|fill"/>
 
         <Button
             style="@style/button_text"
@@ -46,8 +55,7 @@
             android:layout_height="120dp"
             android:text="Create Workout"
             android:id="@+id/button_custom_workout"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center|fill"/>
 
         <Button
             style="@style/button_text"
@@ -56,7 +64,7 @@
             android:layout_height="120dp"
             android:text="Profile"
             android:id="@+id/button_profile"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center|fill"/>
 
         <Button
             style="@style/button_text"
@@ -65,8 +73,8 @@
             android:layout_height="120dp"
             android:text="Exercise Log"
             android:id="@+id/button_exercise_log"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginEnd="20dp"/>
+            android:layout_gravity="center|fill"
+            />
 
         <Button
             style="@style/button_text"
@@ -75,7 +83,7 @@
             android:layout_height="120dp"
             android:text="DB Manager"
             android:id="@+id/button_db_manager"
-            android:layout_gravity="center_horizontal"/>
+            android:layout_gravity="center|fill"/>
 
 
         

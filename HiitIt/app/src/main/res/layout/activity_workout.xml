@@ -24,39 +24,4 @@
 
     <include layout="@layout/content_workout_2"/>
 
-
-    <FrameLayout
-        android:id="@+id/go_button_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/md_white_1000"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/button_workout_go"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            />
-
-    </FrameLayout>
-
-    <FrameLayout
-        android:id="@+id/workout_complete_background"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/md_white_1000"
-        android:visibility="gone">
-
-        <ImageButton
-            android:id="@+id/button_workout_complete"
-            android:layout_width="300dp"
-            android:layout_height="300dp"
-            android:layout_gravity="center"
-            />
-
-    </FrameLayout>
-
-
-
 </android.support.design.widget.CoordinatorLayout>

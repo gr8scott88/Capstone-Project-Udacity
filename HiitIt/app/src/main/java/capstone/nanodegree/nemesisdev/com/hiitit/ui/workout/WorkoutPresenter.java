@@ -18,14 +18,12 @@ public interface WorkoutPresenter {
     void attachTimer(WorkoutTimer2 timer, Workout w);
     void startTimer();
     void stopTimer();
-    void pauseTimer();
     void unBindTimer();
-
     void processBroadcasts(Intent i);
-
+    void startWorkout();
+    void pauseWorkout();
+    void unPauseWorkout();
     void workoutEnded();
-
-
-
+    void mainWindowClicked();
 
 }

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
+    android:id="@+id/workout_main_window"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -24,29 +25,48 @@
             android:layout_width="300dp"
             android:layout_height="300dp"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/status_image_go"/>
+            android:src="@drawable/status_image_rest"/>
 
         <TextView
             android:paddingTop="40dp"
             android:id="@+id/workout_status"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="READY"
+            android:layout_height="300dp"
+            android:text=""
             android:layout_centerHorizontal="true"
             android:textSize="40dp"
+            android:textAlignment="center"
             />
+
+
 
         <TextView
             android:id="@+id/workout_current_time"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="5"
+            android:layout_height="300dp"
+            android:text="TOUCH TO START"
             android:layout_centerHorizontal="true"
-            android:padding="120dp"
-            android:textSize="60dp"/>
+            android:padding="80dp"
+            android:textSize="40dp"
+            android:gravity="center_horizontal"
+            />
 
 
     </RelativeLayout>
+
+
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:id="@+id/button_end_workout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="End Workout"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="50dp"
+        />
+
 
 
     <GridLayout
@@ -76,7 +96,7 @@
             android:paddingBottom="10dp"
             android:text="Elapsed"
             android:textSize="40dp"
-          />
+            />
 
 
         <TextView
@@ -98,57 +118,5 @@
 
 
     </GridLayout>
-
-    <Button
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/button_end_workout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="End Workout"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="50dp"
-        />
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-
-
-
-
-        <LinearLayout
-            android:orientation="horizontal"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            >
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="50"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-
-            </LinearLayout>
-
-
-            <LinearLayout
-                android:orientation="vertical"
-                android:layout_width="0dp"
-                android:layout_weight="50"
-                android:layout_height="wrap_content"
-                android:gravity="center_horizontal">
-
-
-            </LinearLayout>
-
-        </LinearLayout>
-
-
-
-    </LinearLayout>
 
 </RelativeLayout>
